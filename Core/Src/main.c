@@ -22,7 +22,7 @@
 #include "i2c.h"
 #include "spi.h"
 #include "usart.h"
-#include "app_usb.h"
+//#include "app_usb.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -91,32 +91,20 @@ int main(void)
   MX_GPIO_Init();
   MX_I2C1_Init();
   MX_SPI1_Init();
-  MX_USB_PCD_Init();
+  //MX_USB_PCD_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-
+	__HAL_UART_ENABLE(&huart1);
   /* USER CODE END 2 */
-
+	//char x;
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+		HAL_UART_Transmit(&huart1,(uint8_t *)"testing!",sizeof("testing!"),HAL_MAX_DELAY);
 		HAL_GPIO_TogglePin(GPIOE,GPIO_PIN_8);
 		HAL_Delay(1000);
-		HAL_GPIO_TogglePin(GPIOE,GPIO_PIN_9);
-		HAL_Delay(1000);
-		HAL_GPIO_TogglePin(GPIOE,GPIO_PIN_10);
-		HAL_Delay(1000);
-		HAL_GPIO_TogglePin(GPIOE,GPIO_PIN_11);
-		HAL_Delay(1000);
-		HAL_GPIO_TogglePin(GPIOE,GPIO_PIN_12);
-		HAL_Delay(1000);
-		HAL_GPIO_TogglePin(GPIOE,GPIO_PIN_13);
-		HAL_Delay(1000);
-		HAL_GPIO_TogglePin(GPIOE,GPIO_PIN_14);
-		HAL_Delay(1000);
-		HAL_GPIO_TogglePin(GPIOE,GPIO_PIN_15);
-		HAL_Delay(1000);
+		
 		
 		
     /* USER CODE END WHILE */
