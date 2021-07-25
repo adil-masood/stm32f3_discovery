@@ -1,0 +1,1 @@
+stm32f3_discovery\startup_stm32f303xc.o: startup_stm32f303xc.s
