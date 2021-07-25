@@ -47,7 +47,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+	char x;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -96,12 +96,13 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	__HAL_UART_ENABLE(&huart1);
   /* USER CODE END 2 */
-	//char x;
+	
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		HAL_UART_Transmit(&huart1,(uint8_t *)"testing!",sizeof("testing!"),HAL_MAX_DELAY);
+		HAL_UART_Receive(&huart1,(uint8_t *)&x,1,HAL_MAX_DELAY);
+		HAL_UART_Transmit(&huart1,(uint8_t *)&x,sizeof(x),HAL_MAX_DELAY);
 		HAL_GPIO_TogglePin(GPIOE,GPIO_PIN_8);
 		HAL_Delay(1000);
 		
