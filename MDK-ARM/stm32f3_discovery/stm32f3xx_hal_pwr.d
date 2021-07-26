@@ -26,10 +26,7 @@ stm32f3_discovery\stm32f3xx_hal_pwr.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32
 stm32f3_discovery\stm32f3xx_hal_pwr.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_flash_ex.h
 stm32f3_discovery\stm32f3xx_hal_pwr.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_i2c.h
 stm32f3_discovery\stm32f3xx_hal_pwr.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_i2c_ex.h
-stm32f3_discovery\stm32f3xx_hal_pwr.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pcd.h
-stm32f3_discovery\stm32f3xx_hal_pwr.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_usb.h
-stm32f3_discovery\stm32f3xx_hal_pwr.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pcd_ex.h
 stm32f3_discovery\stm32f3xx_hal_pwr.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pwr.h
 stm32f3_discovery\stm32f3xx_hal_pwr.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pwr_ex.h
-stm32f3_discovery\stm32f3xx_hal_pwr.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart.h
-stm32f3_discovery\stm32f3xx_hal_pwr.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart_ex.h
+stm32f3_discovery\stm32f3xx_hal_pwr.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim.h
+stm32f3_discovery\stm32f3xx_hal_pwr.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim_ex.h

@@ -19,9 +19,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "dma.h"
-#include "usart.h"
-//include "app_usb.h"
+#include "tim.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -52,20 +50,7 @@ static DMA_HandleTypeDef hdma_usart1_rx;
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-//void XferCpltCallback(void){
-//	HAL_UART_Transmit_DMA(&huart1,(uint8_t *)buff,sizeof(buff));
-//}
 
-
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-{
-    HAL_UART_Transmit(&huart1,(uint8_t *)"rxcptlusart",sizeof("working"),HAL_MAX_DELAY);
-    HAL_UART_Transmit(&huart1,(uint8_t *)buff,sizeof(buff),HAL_MAX_DELAY); 
-}
-void HAL_UART_RxHalfCpltCallback(UART_HandleTypeDef *huart){
-//	HAL_UART_Transmit(&huart1,(uint8_t *)"halfcallback",sizeof("halfcallback"),HAL_MAX_DELAY);
-  HAL_UART_Transmit(&huart1,(uint8_t *)buff,sizeof(buff),HAL_MAX_DELAY);
-}
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -101,22 +86,20 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  //MX_USB_PCD_Init();
-  MX_DMA_Init();
-  MX_USART1_UART_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-//	__HAL_UART_ENABLE(&huart1);
-	HAL_UART_Receive_DMA (&huart1, (uint8_t *)buff, 20);
+	HAL_TIM_Base_Start_IT(&htim3);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		
-		HAL_GPIO_TogglePin(GPIOE,GPIO_PIN_8);
-		HAL_Delay(1000);
-		
+		HAL_Delay(5000);
+		HAL_TIM_Base_Stop_IT(&htim3);
+		HAL_Delay(5000);
+		HAL_TIM_Base_Start_IT(&htim3);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -132,7 +115,6 @@ void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-  RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
 
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
@@ -143,7 +125,7 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL6;
+  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     Error_Handler();
@@ -157,14 +139,7 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USB|RCC_PERIPHCLK_USART1;
-  PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK2;
-  PeriphClkInit.USBClockSelection = RCC_USBCLKSOURCE_PLL;
-  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
   {
     Error_Handler();
   }
