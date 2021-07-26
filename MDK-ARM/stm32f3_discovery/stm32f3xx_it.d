@@ -35,3 +35,4 @@ stm32f3_discovery\stm32f3xx_it.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_
 stm32f3_discovery\stm32f3xx_it.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart.h
 stm32f3_discovery\stm32f3xx_it.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart_ex.h
 stm32f3_discovery\stm32f3xx_it.o: ../Core/Inc/stm32f3xx_it.h
+stm32f3_discovery\stm32f3xx_it.o: ../Core/Inc/usart.h
