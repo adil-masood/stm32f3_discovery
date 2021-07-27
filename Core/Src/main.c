@@ -65,7 +65,7 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+	int32_t TIM1_ch1	= 0;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -87,19 +87,39 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_TIM3_Init();
+  MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
-	HAL_TIM_Base_Start_IT(&htim3);
-
+	HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_1);
+	// PC6 with 20% duty
+	HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_1);
+	// PC7 with 40% duty
+	//HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_2);
+	// PC8 with 60% duty
+//	HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_3);
+	// PC9 with 80% duty
+//	HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_4);
+	//TIM3->CCR1=288;
+	//TIM3->CCR2=39321;
+//	TIM3->CCR3=26214;
+//	TIM3->CCR4=13107;
+//	HAL_Delay(1000);
+//	TIM3->CCR4=300;
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		HAL_Delay(5000);
-		HAL_TIM_Base_Stop_IT(&htim3);
-		HAL_Delay(5000);
-		HAL_TIM_Base_Start_IT(&htim3);
+		//TIM1->CCR1=0;
+		while(TIM1_ch1<576){
+			TIM1->CCR1 = TIM1_ch1;
+			TIM1_ch1+=58;
+		}
+		//TIM1->CCR1=576;
+		while(TIM1_ch1>0){
+			TIM1->CCR1 = TIM1_ch1;
+			TIM1_ch1-=58;
+		}
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -115,6 +135,7 @@ void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+  RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
 
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
@@ -140,6 +161,12 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_TIM1;
+  PeriphClkInit.Tim1ClockSelection = RCC_TIM1CLK_HCLK;
+  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     Error_Handler();
   }
