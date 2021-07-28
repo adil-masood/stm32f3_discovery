@@ -93,13 +93,14 @@ int main(void)
 	HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_1);
 	// PC6 with 20% duty
 	HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_1);
+	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_1);
 	// PC7 with 40% duty
-	HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_2);
+	//HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_2);
 	// PC8 with 60% duty
-	HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_3);
+	//HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_3);
 	// PC9 with 80% duty
-	HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_4);
-	TIM3->CCR1=35768;
+	//HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_4);
+	//TIM3->CCR1=35768;
 	//TIM3->CCR2=39321;
 //	TIM3->CCR3=26214;
 //	TIM3->CCR4=13107;
