@@ -31,5 +31,6 @@ stm32f3_discovery\main.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pwr.
 stm32f3_discovery\main.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pwr_ex.h
 stm32f3_discovery\main.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim.h
 stm32f3_discovery\main.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim_ex.h
+stm32f3_discovery\main.o: ../Core/Inc/i2c.h
 stm32f3_discovery\main.o: ../Core/Inc/tim.h
 stm32f3_discovery\main.o: ../Core/Inc/gpio.h

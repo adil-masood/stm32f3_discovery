@@ -19,6 +19,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "i2c.h"
 #include "tim.h"
 #include "gpio.h"
 
@@ -65,7 +66,7 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	int32_t TIM1_ch1	= 0;
+	
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -86,42 +87,57 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_TIM3_Init();
   MX_TIM1_Init();
-  MX_TIM4_Init();
+  MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
-	HAL_TIM_PWM_Start(&htim1,TIM_CHANNEL_1);
-	// PC6 with 20% duty
-	HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_1);
-	HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_1);
-	// PC7 with 40% duty
-	//HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_2);
-	// PC8 with 60% duty
-	//HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_3);
-	// PC9 with 80% duty
-	//HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_4);
-	//TIM3->CCR1=35768;
-	//TIM3->CCR2=39321;
-//	TIM3->CCR3=26214;
-//	TIM3->CCR4=13107;
-//	HAL_Delay(1000);
-//	TIM3->CCR4=300;
+	static uint8_t address = (0x68 << 1);
+	uint8_t whoamiadd = 0x75;
+	uint8_t tempadd = 0x41;
+	uint8_t tempval8[2];
+	static uint16_t tempval;
+	uint8_t whoval=0x00;
+	uint8_t gyro_add = 0x43;
+	uint8_t gyroval[6]={0};
+	static uint16_t gyrox=0x0000;
+	static uint16_t gyroy=0x0000;
+	static uint16_t gyroz=0x0000;
+	volatile uint8_t checker;
+	checker = 0x00;
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+	if(HAL_I2C_Master_Transmit(&hi2c1,address,&whoamiadd,1,HAL_MAX_DELAY) != HAL_OK){
+			checker = 0x01;
+		}
+	if(HAL_I2C_Master_Receive(&hi2c1,address,&whoval,1,HAL_MAX_DELAY) != HAL_OK){
+		checker = 0x02;
+	}
+	
   while (1)
   {
-		//TIM1->CCR1=0;
-		while(TIM1_ch1<576){
-			TIM1->CCR1 = TIM1_ch1;
-			TIM1_ch1+=58;
+
+		
+		/*
+		if(HAL_I2C_Master_Transmit(&hi2c1,address,&tempadd,1,HAL_MAX_DELAY) != HAL_OK){
+			checker = 0x01;
 		}
-		//TIM1->CCR1=576;
-		while(TIM1_ch1>0){
-			TIM1->CCR1 = TIM1_ch1;
-			TIM1_ch1-=58;
+		if(HAL_I2C_Master_Receive(&hi2c1,address,tempval8,2,HAL_MAX_DELAY) != HAL_OK){
+			checker = 0x02;
 		}
+		tempval = (tempval8[0] << 8) | tempval8[1]; 
+		*/
+		if(HAL_I2C_Master_Transmit(&hi2c1,address,&gyro_add,1,HAL_MAX_DELAY) != HAL_OK){
+			checker = 0x03;
+		}
+		if(HAL_I2C_Master_Receive(&hi2c1,address,gyroval,6,HAL_MAX_DELAY) != HAL_OK){
+			checker = 0x04;
+		}
+		gyrox = (gyroval[0]<<8) | gyroval[1];
+		gyroy = (gyroval[2]<<8) | gyroval[3];
+		gyroz = (gyroval[4]<<8) | gyroval[5];
+		
+		HAL_Delay(1);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -142,10 +158,11 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_BYPASS;
   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+  RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
@@ -166,7 +183,8 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_TIM1;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_I2C1|RCC_PERIPHCLK_TIM1;
+  PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_HSI;
   PeriphClkInit.Tim1ClockSelection = RCC_TIM1CLK_HCLK;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
