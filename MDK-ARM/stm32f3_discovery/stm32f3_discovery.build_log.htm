@@ -5,7 +5,7 @@
 <h2>Tool Versions:</h2>
 IDE-Version: µVision V5.35.0.0
 Copyright (C) 2021 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: sadfasdf dsfagdsfg, personal, LIC=----
+License Information: Adil Masood, Personal, LIC=----
  
 Tool Versions:
 Toolchain:       MDK-Lite  Version: 5.35.0.2
@@ -21,30 +21,32 @@ Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.9.0
 Dialog DLL:      TCM.DLL V1.53.0.0
  
 <h2>Project:</h2>
-C:\Users\eptech_pc\Desktop\stm32f3_discovery\MDK-ARM\stm32f3_discovery.uvprojx
-Project File Date:  07/29/2021
+E:\Adil\STM32_work\stm32f3_discovery\MDK-ARM\stm32f3_discovery.uvprojx
+Project File Date:  07/30/2021
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'stm32f3_discovery'
 compiling main.c...
-../Core/Src/main.c(95): warning:  #177-D: variable "tempadd"  was declared but never referenced
+../Core/Src/main.c(99): warning:  #177-D: variable "tempadd"  was declared but never referenced
   	uint8_t tempadd = 0x41;
-../Core/Src/main.c(96): warning:  #177-D: variable "tempval8"  was declared but never referenced
+../Core/Src/main.c(100): warning:  #177-D: variable "tempval8"  was declared but never referenced
   	uint8_t tempval8[2];
-../Core/Src/main.c(97): warning:  #177-D: variable "tempval"  was declared but never referenced
+../Core/Src/main.c(101): warning:  #177-D: variable "tempval"  was declared but never referenced
   	static uint16_t tempval;
-../Core/Src/main.c(101): warning:  #550-D: variable "gyrox"  was set but never used
-  	static uint16_t gyrox=0x0000;
-../Core/Src/main.c(102): warning:  #550-D: variable "gyroy"  was set but never used
-  	static uint16_t gyroy=0x0000;
-../Core/Src/main.c(103): warning:  #550-D: variable "gyroz"  was set but never used
-  	static uint16_t gyroz=0x0000;
-../Core/Src/main.c: 6 warnings, 0 errors
+../Core/Src/main.c(106): warning:  #550-D: variable "gyroy"  was set but never used
+  	int16_t gyroy=0x0000;
+../Core/Src/main.c(107): warning:  #550-D: variable "gyroz"  was set but never used
+  	int16_t gyroz=0x0000;
+../Core/Src/main.c(110): warning:  #177-D: variable "gyroystr"  was declared but never referenced
+  	char gyroystr[6];
+../Core/Src/main.c(111): warning:  #177-D: variable "gyrozstr"  was declared but never referenced
+  	char gyrozstr[6];
+../Core/Src/main.c: 7 warnings, 0 errors
 linking...
-Program Size: Code=8770 RO-data=474 RW-data=24 ZI-data=1784  
+Program Size: Code=10826 RO-data=482 RW-data=20 ZI-data=1916  
 FromELF: creating hex file...
-"stm32f3_discovery\stm32f3_discovery.axf" - 0 Error(s), 6 Warning(s).
+"stm32f3_discovery\stm32f3_discovery.axf" - 0 Error(s), 7 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -55,20 +57,20 @@ Package Vendor: ARM
    * Component: CORE Version: 5.5.0
 
 Package Vendor: Keil
-                http://www.keil.com/pack/Keil.STM32F3xx_DFP.2.2.0.pack
-                Keil.STM32F3xx_DFP.2.2.0
+                http://www.keil.com/pack/Keil.STM32F3xx_DFP.2.1.0.pack
+                Keil.STM32F3xx_DFP.2.1.0
                 STMicroelectronics STM32F3 Series Device Support and Examples
 
 <h2>Collection of Component include folders:</h2>
   .\RTE\_stm32f3_discovery
-  C:\Users\eptech_pc\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include
-  C:\Users\eptech_pc\AppData\Local\Arm\Packs\Keil\STM32F3xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32F3xx\Include
+  C:\Users\KHALID\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include
+  C:\Users\KHALID\AppData\Local\Arm\Packs\Keil\STM32F3xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32F3xx\Include
 
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.5.0
       Include file:  CMSIS\Core\Include\tz_context.h
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>

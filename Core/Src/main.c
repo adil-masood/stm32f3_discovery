@@ -21,11 +21,13 @@
 #include "main.h"
 #include "i2c.h"
 #include "tim.h"
+#include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "stdio.h"
+#include "string.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -89,8 +91,10 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM1_Init();
   MX_I2C1_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-	static uint8_t address = (0x68 << 1);
+	uint8_t lineend[2] = {0x0D,0x0A};
+	static uint8_t mpu6050 = (0x68 << 1);
 	uint8_t whoamiadd = 0x75;
 	uint8_t tempadd = 0x41;
 	uint8_t tempval8[2];
@@ -98,19 +102,22 @@ int main(void)
 	uint8_t whoval=0x00;
 	uint8_t gyro_add = 0x43;
 	uint8_t gyroval[6]={0};
-	static uint16_t gyrox=0x0000;
-	static uint16_t gyroy=0x0000;
-	static uint16_t gyroz=0x0000;
+	int16_t gyrox=0x0000;
+	int16_t gyroy=0x0000;
+	int16_t gyroz=0x0000;
 	volatile uint8_t checker;
+	char gyroxstr[6];
+	char gyroystr[6];
+	char gyrozstr[6];
 	checker = 0x00;
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-	if(HAL_I2C_Master_Transmit(&hi2c1,address,&whoamiadd,1,HAL_MAX_DELAY) != HAL_OK){
+	if(HAL_I2C_Master_Transmit(&hi2c1,mpu6050,&whoamiadd,1,HAL_MAX_DELAY) != HAL_OK){
 			checker = 0x01;
 		}
-	if(HAL_I2C_Master_Receive(&hi2c1,address,&whoval,1,HAL_MAX_DELAY) != HAL_OK){
+	if(HAL_I2C_Master_Receive(&hi2c1,mpu6050,&whoval,1,HAL_MAX_DELAY) != HAL_OK){
 		checker = 0x02;
 	}
 	
@@ -127,17 +134,25 @@ int main(void)
 		}
 		tempval = (tempval8[0] << 8) | tempval8[1]; 
 		*/
-		if(HAL_I2C_Master_Transmit(&hi2c1,address,&gyro_add,1,HAL_MAX_DELAY) != HAL_OK){
+		
+		if(HAL_I2C_Master_Transmit(&hi2c1,mpu6050,&gyro_add,1,HAL_MAX_DELAY) != HAL_OK){
 			checker = 0x03;
 		}
-		if(HAL_I2C_Master_Receive(&hi2c1,address,gyroval,6,HAL_MAX_DELAY) != HAL_OK){
+		if(HAL_I2C_Master_Receive(&hi2c1,mpu6050,gyroval,6,HAL_MAX_DELAY) != HAL_OK){
 			checker = 0x04;
 		}
-		gyrox = (gyroval[0]<<8) | gyroval[1];
-		gyroy = (gyroval[2]<<8) | gyroval[3];
-		gyroz = (gyroval[4]<<8) | gyroval[5];
+
+		gyrox = (int16_t)((gyroval[0]<<8) | gyroval[1]);
+		gyroy = (int16_t)((gyroval[2]<<8) | gyroval[3]);
+		gyroz = (int16_t)((gyroval[4]<<8) | gyroval[5]);
 		
-		HAL_Delay(1);
+		sprintf(gyroxstr,"%d",gyrox);
+		
+		HAL_UART_Transmit(&huart1,(uint8_t *)gyroxstr,strlen(gyroxstr),HAL_MAX_DELAY);
+		//HAL_UART_Transmit(&huart1,(uint8_t *)gyroystr,strlen(gyroystr),HAL_MAX_DELAY);
+		//HAL_UART_Transmit(&huart1,(uint8_t *)gyrozstr,strlen(gyrozstr),HAL_MAX_DELAY);
+		HAL_UART_Transmit(&huart1,lineend,2,HAL_MAX_DELAY);
+		HAL_Delay(300);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -183,7 +198,9 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_I2C1|RCC_PERIPHCLK_TIM1;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART1|RCC_PERIPHCLK_I2C1
+                              |RCC_PERIPHCLK_TIM1;
+  PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK2;
   PeriphClkInit.I2c1ClockSelection = RCC_I2C1CLKSOURCE_HSI;
   PeriphClkInit.Tim1ClockSelection = RCC_TIM1CLK_HCLK;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
