@@ -36,37 +36,35 @@ compiling main.c...
   	uint8_t tempval8[2];
 ../Core/Src/main.c(100): warning:  #177-D: variable "tempval"  was declared but never referenced
   	static uint16_t tempval;
-../Core/Src/main.c(109): warning:  #177-D: variable "avg_gyrox"  was declared but never referenced
+../Core/Src/main.c(104): warning:  #550-D: variable "gyroy"  was set but never used
+  	int16_t gyroy=0x0000;
+../Core/Src/main.c(105): warning:  #550-D: variable "gyroz"  was set but never used
+  	int16_t gyroz=0x0000;
+../Core/Src/main.c(107): warning:  #177-D: variable "sum_gyroy"  was declared but never referenced
+  	float sum_gyroy=0;
+../Core/Src/main.c(108): warning:  #177-D: variable "sum_gyroz"  was declared but never referenced
+  	float sum_gyroz=0;
+../Core/Src/main.c(110): warning:  #177-D: variable "fgyroy"  was declared but never referenced
+  	float fgyroy;
+../Core/Src/main.c(111): warning:  #177-D: variable "fgyroz"  was declared but never referenced
+  	float fgyroz;
+../Core/Src/main.c(112): warning:  #177-D: variable "avg_gyrox"  was declared but never referenced
   	int avg_gyrox=0;
-../Core/Src/main.c(110): warning:  #177-D: variable "avg_gyroy"  was declared but never referenced
+../Core/Src/main.c(113): warning:  #177-D: variable "avg_gyroy"  was declared but never referenced
   	int avg_gyroy=0;
-../Core/Src/main.c(111): warning:  #177-D: variable "avg_gyroz"  was declared but never referenced
+../Core/Src/main.c(114): warning:  #177-D: variable "avg_gyroz"  was declared but never referenced
   	int avg_gyroz=0;
-../Core/Src/main.c(114): warning:  #177-D: variable "gyroystr"  was declared but never referenced
-  	char gyroystr[6];
-../Core/Src/main.c(115): warning:  #177-D: variable "gyrozstr"  was declared but never referenced
-  	char gyrozstr[6];
-../Core/Src/main.c(116): warning:  #177-D: variable "avgx_str"  was declared but never referenced
-  	char avgx_str[20];
-../Core/Src/main.c(117): warning:  #177-D: variable "avgy_str"  was declared but never referenced
-  	char avgy_str[20];
-../Core/Src/main.c(118): warning:  #177-D: variable "avgz_str"  was declared but never referenced
-  	char avgz_str[20];
+../Core/Src/main.c(117): warning:  #177-D: variable "gyroystr"  was declared but never referenced
+  	char gyroystr[10];
+../Core/Src/main.c(118): warning:  #177-D: variable "gyrozstr"  was declared but never referenced
+  	char gyrozstr[10];
 ../Core/Src/main.c(119): warning:  #177-D: variable "smpl_div"  was declared but never referenced
   	uint8_t smpl_div = 0x19;
-../Core/Src/main.c(122): warning:  #177-D: variable "ch_buff"  was declared but never referenced
-  	uint8_t ch_buff[3]={1,1,1};
-../Core/Src/main.c(123): warning:  #177-D: variable "chbuff_str1"  was declared but never referenced
-  	char chbuff_str1[6];
-../Core/Src/main.c(124): warning:  #177-D: variable "chbuff_str2"  was declared but never referenced
-  	char chbuff_str2[6];
-../Core/Src/main.c(125): warning:  #177-D: variable "chbuff_str3"  was declared but never referenced
-  	char chbuff_str3[6];
-../Core/Src/main.c: 17 warnings, 0 errors
+../Core/Src/main.c: 16 warnings, 0 errors
 linking...
-Program Size: Code=10862 RO-data=482 RW-data=16 ZI-data=1920  
+Program Size: Code=15258 RO-data=658 RW-data=16 ZI-data=1920  
 FromELF: creating hex file...
-"stm32f3_discovery\stm32f3_discovery.axf" - 0 Error(s), 17 Warning(s).
+"stm32f3_discovery\stm32f3_discovery.axf" - 0 Error(s), 16 Warning(s).
 
 <h2>Software Packages used:</h2>
 
