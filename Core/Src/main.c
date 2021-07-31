@@ -95,11 +95,9 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	uint8_t lineend[2] = {0x0D,0x0A};
 	
-	uint8_t whoamiadd = 0x75;
 	uint8_t tempadd = 0x41;
 	uint8_t tempval8[2];
 	static uint16_t tempval;
-	uint8_t whoval=0x00;
 	uint8_t gyro_add = 0x43;
 	uint8_t gyroval[6]={0};
 	int16_t gyrox=0x0000;
@@ -129,48 +127,8 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-	HAL_UART_Transmit(&huart1,(uint8_t *)"BEFORE",strlen("BEFORE"),HAL_MAX_DELAY);
-	HAL_UART_Transmit(&huart1,lineend,2,HAL_MAX_DELAY);
-	if(HAL_I2C_Master_Transmit(&hi2c1,mpu6050,&tempadd,1,HAL_MAX_DELAY) != HAL_OK){
-		HAL_UART_Transmit(&huart1,(uint8_t *)"I2C_ERROR (1)",strlen("I2C_ERROR (1)"),HAL_MAX_DELAY);
-		}
-	if(HAL_I2C_Master_Receive(&hi2c1,mpu6050,ch_buff,3,HAL_MAX_DELAY) != HAL_OK){
-		HAL_UART_Transmit(&huart1,(uint8_t *)"I2C_ERROR (2)",strlen("I2C_ERROR (2)"),HAL_MAX_DELAY);
-	}
-	sprintf(chbuff_str1,"%d",ch_buff[0]);
-	sprintf(chbuff_str2,"%d",ch_buff[1]);
-	sprintf(chbuff_str3,"%d",ch_buff[2]);
-	HAL_UART_Transmit(&huart1,(uint8_t *)chbuff_str1,strlen(chbuff_str1),HAL_MAX_DELAY);
-	HAL_UART_Transmit(&huart1,lineend,2,HAL_MAX_DELAY);
-	HAL_UART_Transmit(&huart1,(uint8_t *)chbuff_str2,strlen(chbuff_str2),HAL_MAX_DELAY);
-	HAL_UART_Transmit(&huart1,lineend,2,HAL_MAX_DELAY);
-	HAL_UART_Transmit(&huart1,(uint8_t *)chbuff_str3,strlen(chbuff_str3),HAL_MAX_DELAY);
-	HAL_UART_Transmit(&huart1,lineend,2,HAL_MAX_DELAY);
-	HAL_UART_Transmit(&huart1,(uint8_t *)"AFTER",strlen("AFTER"),HAL_MAX_DELAY);
-	HAL_UART_Transmit(&huart1,lineend,2,HAL_MAX_DELAY);
+
 	gyro_init();
-	if(HAL_I2C_Master_Transmit(&hi2c1,mpu6050,&smpl_div,1,HAL_MAX_DELAY) != HAL_OK){
-		HAL_UART_Transmit(&huart1,(uint8_t *)"I2C_ERROR (1)",strlen("I2C_ERROR (1)"),HAL_MAX_DELAY);
-		}
-	if(HAL_I2C_Master_Receive(&hi2c1,mpu6050,ch_buff,3,HAL_MAX_DELAY) != HAL_OK){
-		HAL_UART_Transmit(&huart1,(uint8_t *)"I2C_ERROR (2)",strlen("I2C_ERROR (2)"),HAL_MAX_DELAY);
-	}
-	sprintf(chbuff_str1,"%d",ch_buff[0]);
-	sprintf(chbuff_str2,"%d",ch_buff[1]);
-	sprintf(chbuff_str3,"%d",ch_buff[2]);
-	HAL_UART_Transmit(&huart1,(uint8_t *)chbuff_str1,strlen(chbuff_str1),HAL_MAX_DELAY);
-	HAL_UART_Transmit(&huart1,lineend,2,HAL_MAX_DELAY);
-	HAL_UART_Transmit(&huart1,(uint8_t *)chbuff_str2,strlen(chbuff_str2),HAL_MAX_DELAY);
-	HAL_UART_Transmit(&huart1,lineend,2,HAL_MAX_DELAY);
-	HAL_UART_Transmit(&huart1,(uint8_t *)chbuff_str3,strlen(chbuff_str3),HAL_MAX_DELAY);
-	HAL_UART_Transmit(&huart1,lineend,2,HAL_MAX_DELAY);
-	
-	if(HAL_I2C_Master_Transmit(&hi2c1,mpu6050,&whoamiadd,1,HAL_MAX_DELAY) != HAL_OK){
-			checker = 0x01;
-		}
-	if(HAL_I2C_Master_Receive(&hi2c1,mpu6050,&whoval,1,HAL_MAX_DELAY) != HAL_OK){
-		checker = 0x02;
-	}
 	
   while (1)
   {
@@ -182,9 +140,9 @@ int main(void)
 			checker = 0x04;
 		}
 		count+=1;
-		gyrox = (int16_t)((gyroval[0]<<8) | gyroval[1]);
-		gyroy = (int16_t)((gyroval[2]<<8) | gyroval[3]);
-		gyroz = (int16_t)((gyroval[4]<<8) | gyroval[5]);
+		gyrox = ((int16_t)((gyroval[0]<<8) | gyroval[1]))-21;
+		gyroy = ((int16_t)((gyroval[2]<<8) | gyroval[3]))+37;
+		gyroz = ((int16_t)((gyroval[4]<<8) | gyroval[5]))-12;
 		sum_gyrox+=gyrox;
 		sum_gyroy+=gyroy;
 		sum_gyroz+=gyroz;
@@ -193,14 +151,18 @@ int main(void)
 		avg_gyroz = sum_gyroz/count;
 		
 		//sprintf(gyroxstr,"%d",gyrox);
-	//	sprintf(avgx_str,"%d",avg_gyrox);
-	//	sprintf(avgy_str,"%d",avg_gyroy);
-	//	sprintf(avgz_str,"%d",avg_gyroz);
+		sprintf(avgx_str,"%d",avg_gyrox);
+		sprintf(avgy_str,"%d",avg_gyroy);
+		sprintf(avgz_str,"%d",avg_gyroz);
 		//HAL_UART_Transmit(&huart1,(uint8_t *)gyroxstr,strlen(gyroxstr),HAL_MAX_DELAY);
 		//HAL_UART_Transmit(&huart1,(uint8_t *)gyroystr,strlen(gyroystr),HAL_MAX_DELAY);
 		//HAL_UART_Transmit(&huart1,(uint8_t *)gyrozstr,strlen(gyrozstr),HAL_MAX_DELAY);
-		//HAL_UART_Transmit(&huart1,(uint8_t *)avgx_str,strlen(avgx_str),HAL_MAX_DELAY);
-		//HAL_UART_Transmit(&huart1,lineend,2,HAL_MAX_DELAY);
+		HAL_UART_Transmit(&huart1,(uint8_t *)avgx_str,strlen(avgx_str),HAL_MAX_DELAY);
+		HAL_UART_Transmit(&huart1,lineend,2,HAL_MAX_DELAY);
+		HAL_UART_Transmit(&huart1,(uint8_t *)avgy_str,strlen(avgy_str),HAL_MAX_DELAY);
+		HAL_UART_Transmit(&huart1,lineend,2,HAL_MAX_DELAY);
+		HAL_UART_Transmit(&huart1,(uint8_t *)avgz_str,strlen(avgz_str),HAL_MAX_DELAY);
+		HAL_UART_Transmit(&huart1,lineend,2,HAL_MAX_DELAY);
 		HAL_Delay(100);
     /* USER CODE END WHILE */
 
