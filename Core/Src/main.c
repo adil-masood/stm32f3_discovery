@@ -106,6 +106,9 @@ int main(void)
 	int sum_gyrox=0;
 	int sum_gyroy=0;
 	int sum_gyroz=0;
+	float sum_fgyrox;
+	float sum_fgyroy;
+	float sum_fgyroz;
 	int avg_gyrox=0;
 	int avg_gyroy=0;
 	int avg_gyroz=0;
@@ -113,16 +116,8 @@ int main(void)
 	char gyroxstr[6];
 	char gyroystr[6];
 	char gyrozstr[6];
-	char avgx_str[20];
-	char avgy_str[20];
-	char avgz_str[20];
 	uint8_t smpl_div = 0x19;
 	volatile uint8_t checker;
-	
-	uint8_t ch_buff[3]={1,1,1};
-	char chbuff_str1[6];
-	char chbuff_str2[6];
-	char chbuff_str3[6];
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -146,22 +141,13 @@ int main(void)
 		sum_gyrox+=gyrox;
 		sum_gyroy+=gyroy;
 		sum_gyroz+=gyroz;
-		avg_gyrox = sum_gyrox/count;
-		avg_gyroy = sum_gyroy/count;
-		avg_gyroz = sum_gyroz/count;
-		
-		//sprintf(gyroxstr,"%d",gyrox);
-		sprintf(avgx_str,"%d",avg_gyrox);
-		sprintf(avgy_str,"%d",avg_gyroy);
-		sprintf(avgz_str,"%d",avg_gyroz);
-		//HAL_UART_Transmit(&huart1,(uint8_t *)gyroxstr,strlen(gyroxstr),HAL_MAX_DELAY);
+		//sum_fgyrox= (float)sum_gyrox;
+		//sprintf(gyroxstr,"%d",sum_fgyrox);
+
+		HAL_UART_Transmit(&huart1,(uint8_t *)gyroxstr,strlen(gyroxstr),HAL_MAX_DELAY);
 		//HAL_UART_Transmit(&huart1,(uint8_t *)gyroystr,strlen(gyroystr),HAL_MAX_DELAY);
 		//HAL_UART_Transmit(&huart1,(uint8_t *)gyrozstr,strlen(gyrozstr),HAL_MAX_DELAY);
-		HAL_UART_Transmit(&huart1,(uint8_t *)avgx_str,strlen(avgx_str),HAL_MAX_DELAY);
-		HAL_UART_Transmit(&huart1,lineend,2,HAL_MAX_DELAY);
-		HAL_UART_Transmit(&huart1,(uint8_t *)avgy_str,strlen(avgy_str),HAL_MAX_DELAY);
-		HAL_UART_Transmit(&huart1,lineend,2,HAL_MAX_DELAY);
-		HAL_UART_Transmit(&huart1,(uint8_t *)avgz_str,strlen(avgz_str),HAL_MAX_DELAY);
+
 		HAL_UART_Transmit(&huart1,lineend,2,HAL_MAX_DELAY);
 		HAL_Delay(100);
     /* USER CODE END WHILE */
