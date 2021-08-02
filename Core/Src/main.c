@@ -47,7 +47,7 @@ static DMA_HandleTypeDef hdma_usart1_rx;
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-	static const uint8_t mpu6050 = (0x68 << 1);
+static const uint8_t mpu6050 = (0x68 << 1);
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -93,31 +93,7 @@ int main(void)
   MX_I2C1_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-	uint8_t lineend[2] = {0x0D,0x0A};
-	
-	uint8_t tempadd = 0x41;
-	uint8_t tempval8[2];
-	static uint16_t tempval;
-	uint8_t gyro_add = 0x43;
-	uint8_t gyroval[6]={0};
-	int16_t gyrox=0x0000;
-	int16_t gyroy=0x0000;
-	int16_t gyroz=0x0000;
-	float sum_gyrox=0;
-	float sum_gyroy=0;
-	float sum_gyroz=0;
-	float fgyrox;
-	float fgyroy;
-	float fgyroz;
-	int avg_gyrox=0;
-	int avg_gyroy=0;
-	int avg_gyroz=0;
-	int count=0;
-	char gyroxstr[10];
-	char gyroystr[10];
-	char gyrozstr[10];
-	uint8_t smpl_div = 0x19;
-	volatile uint8_t checker;
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -128,30 +104,7 @@ int main(void)
   while (1)
   {
 		
-		if(HAL_I2C_Master_Transmit(&hi2c1,mpu6050,&gyro_add,1,HAL_MAX_DELAY) != HAL_OK){
-			checker = 0x03;
-		}
-		if(HAL_I2C_Master_Receive(&hi2c1,mpu6050,gyroval,6,HAL_MAX_DELAY) != HAL_OK){
-			checker = 0x04;
-		}
-		count+=1;
-		gyrox = ((int16_t)((gyroval[0]<<8) | gyroval[1]))-21;
-		gyroy = ((int16_t)((gyroval[2]<<8) | gyroval[3]))+37;
-		gyroz = ((int16_t)((gyroval[4]<<8) | gyroval[5]))-12;
 		
-		fgyrox= ((float)gyrox)/100;
-		fgyrox= ((float)((int)fgyrox))*100;
-		fgyrox= (((1000)/32768.)*fgyrox*0.1);
-		sum_gyrox+=fgyrox;
-		//sum_gyroy+=gyroy;
-		//sum_gyroz+=gyroz;
-		sprintf(gyroxstr,"%f",sum_gyrox);
-
-		HAL_UART_Transmit(&huart1,(uint8_t *)gyroxstr,strlen(gyroxstr),HAL_MAX_DELAY);
-		//HAL_UART_Transmit(&huart1,(uint8_t *)gyroystr,strlen(gyroystr),HAL_MAX_DELAY);
-		//HAL_UART_Transmit(&huart1,(uint8_t *)gyrozstr,strlen(gyrozstr),HAL_MAX_DELAY);
-
-		HAL_UART_Transmit(&huart1,lineend,2,HAL_MAX_DELAY);
 		HAL_Delay(100);
     /* USER CODE END WHILE */
 
@@ -216,10 +169,13 @@ void gyro_init(){
   // 2nd addr=0x19 <SMPLRT_DIV registr> || "SAMPLE_RATE= Internal_Sample_Rate / (1 + SMPLRT_DIV)"
   // 3rd 00000110 addr=0x1A <CONFIG registr> || "DLPF <Fs=1KHz, mode=6>, fifo mode replace"
   // 4th 1000dps addr=0x1B <GYRO CONFIG registr> || "gyro full scale +-250dps, enable DLPF by fchoice_b = 2b'00"
+	uint8_t buff2[3] = {0x37,0x11,0x01};
 	if(HAL_I2C_Master_Transmit(&hi2c1,mpu6050,buffer,4,HAL_MAX_DELAY) != HAL_OK){
 		HAL_UART_Transmit(&huart1,(uint8_t *)"i2c_error: gyro_init() (1)",strlen("i2c_error: gyro_init() (1)"),HAL_MAX_DELAY);
 	}
-	
+	if(HAL_I2C_Master_Transmit(&hi2c1,mpu6050,buff2,3,HAL_MAX_DELAY) != HAL_OK){
+		HAL_UART_Transmit(&huart1,(uint8_t *)"i2c_error: gyro_init() (2)",strlen("i2c_error: gyro_init() (1)"),HAL_MAX_DELAY);
+	}
 	
 }
 /* USER CODE END 4 */
