@@ -23,6 +23,8 @@ stm32f3_discovery\main.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_exti
 stm32f3_discovery\main.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_dma.h
 stm32f3_discovery\main.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_dma_ex.h
 stm32f3_discovery\main.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_cortex.h
+stm32f3_discovery\main.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_adc.h
+stm32f3_discovery\main.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_adc_ex.h
 stm32f3_discovery\main.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_flash.h
 stm32f3_discovery\main.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_flash_ex.h
 stm32f3_discovery\main.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_i2c.h
@@ -33,6 +35,7 @@ stm32f3_discovery\main.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim.
 stm32f3_discovery\main.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim_ex.h
 stm32f3_discovery\main.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart.h
 stm32f3_discovery\main.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart_ex.h
+stm32f3_discovery\main.o: ../Core/Inc/adc.h
 stm32f3_discovery\main.o: ../Core/Inc/i2c.h
 stm32f3_discovery\main.o: ../Core/Inc/tim.h
 stm32f3_discovery\main.o: ../Core/Inc/usart.h

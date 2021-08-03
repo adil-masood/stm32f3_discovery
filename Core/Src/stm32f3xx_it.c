@@ -21,7 +21,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f3xx_it.h"
-
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "stdio.h"
@@ -209,8 +208,8 @@ void SysTick_Handler(void)
 void EXTI9_5_IRQHandler(void)
 {
   /* USER CODE BEGIN EXTI9_5_IRQn 0 */
-	static int counter =0;
-	counter++;
+	//static int counter =0;
+	//counter++;
 	//char str_count[100];
 	//HAL_UART_Transmit(&huart1,(uint8_t *)"Interrupted\n",sizeof("Interrupted\n"),HAL_MAX_DELAY);
 	//sprintf(str_count,"%d",counter);
@@ -244,11 +243,11 @@ void EXTI9_5_IRQHandler(void)
 		//sum_gyroz+=gyroz;
 		sprintf(gyroxstr,"%f",sum_gyrox);
 
-		HAL_UART_Transmit(&huart1,(uint8_t *)gyroxstr,strlen(gyroxstr),HAL_MAX_DELAY);
+		//HAL_UART_Transmit(&huart1,(uint8_t *)gyroxstr,strlen(gyroxstr),HAL_MAX_DELAY);
 		//HAL_UART_Transmit(&huart1,(uint8_t *)gyroystr,strlen(gyroystr),HAL_MAX_DELAY);
 		//HAL_UART_Transmit(&huart1,(uint8_t *)gyrozstr,strlen(gyrozstr),HAL_MAX_DELAY);
 
-		HAL_UART_Transmit(&huart1,lineend,2,HAL_MAX_DELAY);
+		//HAL_UART_Transmit(&huart1,lineend,2,HAL_MAX_DELAY);
 	}
   /* USER CODE END EXTI9_5_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_7);
