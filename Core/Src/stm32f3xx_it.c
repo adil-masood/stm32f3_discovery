@@ -214,6 +214,9 @@ void EXTI9_5_IRQHandler(void)
 	//HAL_UART_Transmit(&huart1,(uint8_t *)"Interrupted\n",sizeof("Interrupted\n"),HAL_MAX_DELAY);
 	//sprintf(str_count,"%d",counter);
 	//HAL_UART_Transmit(&huart1,(uint8_t *)str_count,strlen(str_count),HAL_MAX_DELAY);
+	static uint32_t prev_tick=0;
+	static uint32_t cur_tick=0;
+	static uint32_t tick;
 	static uint8_t status_add;
 	static uint8_t status_val;
 	static uint8_t gyroval[6];
@@ -226,9 +229,13 @@ void EXTI9_5_IRQHandler(void)
 	static float sum_gyrox;
 	static char gyroxstr[10];
 	static uint8_t lineend[2] = {0x0D,0x0A};
+	
 	HAL_I2C_Master_Transmit(&hi2c1,mpu6050,&status_add,1,HAL_MAX_DELAY);
 	HAL_I2C_Master_Receive(&hi2c1,mpu6050,&status_val,1,HAL_MAX_DELAY);
 	if((status_val & (uint8_t)1<<0) == (uint8_t)1<<0){
+		cur_tick = HAL_GetTick();
+		tick=cur_tick-prev_tick;
+		prev_tick = cur_tick;
 		HAL_I2C_Master_Transmit(&hi2c1,mpu6050,&gyro_add,1,HAL_MAX_DELAY);
 		HAL_I2C_Master_Receive(&hi2c1,mpu6050,gyroval,6,HAL_MAX_DELAY);
 		gyrox = ((int16_t)((gyroval[0]<<8) | gyroval[1]))-21;
@@ -237,17 +244,17 @@ void EXTI9_5_IRQHandler(void)
 		
 		fgyrox= ((float)gyrox)/100;
 		fgyrox= ((float)((int)fgyrox))*100;
-		fgyrox= (((1000)/32768.)*fgyrox*0.02);
+		fgyrox= (((1000)/32768.)*(fgyrox)*((float)tick/1000.));
 		sum_gyrox+=fgyrox;
 		//sum_gyroy+=gyroy;
 		//sum_gyroz+=gyroz;
 		sprintf(gyroxstr,"%f",sum_gyrox);
 
-		//HAL_UART_Transmit(&huart1,(uint8_t *)gyroxstr,strlen(gyroxstr),HAL_MAX_DELAY);
+		HAL_UART_Transmit(&huart1,(uint8_t *)gyroxstr,strlen(gyroxstr),HAL_MAX_DELAY);
 		//HAL_UART_Transmit(&huart1,(uint8_t *)gyroystr,strlen(gyroystr),HAL_MAX_DELAY);
 		//HAL_UART_Transmit(&huart1,(uint8_t *)gyrozstr,strlen(gyrozstr),HAL_MAX_DELAY);
 
-		//HAL_UART_Transmit(&huart1,lineend,2,HAL_MAX_DELAY);
+		HAL_UART_Transmit(&huart1,lineend,2,HAL_MAX_DELAY);
 	}
   /* USER CODE END EXTI9_5_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_7);
