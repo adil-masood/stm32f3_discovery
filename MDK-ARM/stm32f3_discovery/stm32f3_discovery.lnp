@@ -3,6 +3,7 @@
 "stm32f3_discovery\main.o"
 "stm32f3_discovery\gpio.o"
 "stm32f3_discovery\adc.o"
+"stm32f3_discovery\dma.o"
 "stm32f3_discovery\i2c.o"
 "stm32f3_discovery\tim.o"
 "stm32f3_discovery\usart.o"

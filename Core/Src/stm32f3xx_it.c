@@ -46,6 +46,7 @@
 /* USER CODE BEGIN PV */
 static const uint8_t mpu6050 = (0x68 << 1);
 static uint8_t gyro_add = 0x43;
+static uint8_t lineend[2] = {0x0D,0x0A};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -59,7 +60,10 @@ static uint8_t gyro_add = 0x43;
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
+extern DMA_HandleTypeDef hdma_adc1;
+extern ADC_HandleTypeDef hadc1;
 extern I2C_HandleTypeDef hi2c1;
+extern void personal(void);
 /* USER CODE BEGIN EV */
 extern UART_HandleTypeDef huart1;
 /* USER CODE END EV */
@@ -203,6 +207,44 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
+  * @brief This function handles DMA1 channel1 global interrupt.
+  */
+void DMA1_Channel1_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA1_Channel1_IRQn 0 */
+	HAL_UART_Transmit(&huart1,(uint8_t *)"I AM HERE",strlen("I AM HERE"),HAL_MAX_DELAY);
+	HAL_UART_Transmit(&huart1,lineend,2,HAL_MAX_DELAY);
+	personal();
+	
+  /* USER CODE END DMA1_Channel1_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_adc1);
+  /* USER CODE BEGIN DMA1_Channel1_IRQn 1 */
+
+  /* USER CODE END DMA1_Channel1_IRQn 1 */
+}
+
+/**
+  * @brief This function handles ADC1 and ADC2 interrupts.
+  */
+void ADC1_2_IRQHandler(void)
+{
+  /* USER CODE BEGIN ADC1_2_IRQn 0 */
+	static uint32_t raw;
+	static char raw_str[10];
+	
+	raw = HAL_ADC_GetValue(&hadc1);
+	sprintf(raw_str,"%d",raw);
+	HAL_UART_Transmit(&huart1,(uint8_t *)raw_str,strlen(raw_str),HAL_MAX_DELAY);
+	HAL_UART_Transmit(&huart1,lineend,2,HAL_MAX_DELAY);
+	//HAL_ADC_Start_IT(&hadc1);
+  /* USER CODE END ADC1_2_IRQn 0 */
+  HAL_ADC_IRQHandler(&hadc1);
+  /* USER CODE BEGIN ADC1_2_IRQn 1 */
+
+  /* USER CODE END ADC1_2_IRQn 1 */
+}
+
+/**
   * @brief This function handles EXTI line[9:5] interrupts.
   */
 void EXTI9_5_IRQHandler(void)
@@ -214,9 +256,10 @@ void EXTI9_5_IRQHandler(void)
 	//HAL_UART_Transmit(&huart1,(uint8_t *)"Interrupted\n",sizeof("Interrupted\n"),HAL_MAX_DELAY);
 	//sprintf(str_count,"%d",counter);
 	//HAL_UART_Transmit(&huart1,(uint8_t *)str_count,strlen(str_count),HAL_MAX_DELAY);
-	static uint32_t prev_tick=0;
-	static uint32_t cur_tick=0;
-	static uint32_t tick;
+	
+	//static uint32_t prev_tick=0;
+	//static uint32_t cur_tick=0;
+	//static uint32_t tick;
 	static uint8_t status_add;
 	static uint8_t status_val;
 	static uint8_t gyroval[6];
@@ -233,9 +276,9 @@ void EXTI9_5_IRQHandler(void)
 	HAL_I2C_Master_Transmit(&hi2c1,mpu6050,&status_add,1,HAL_MAX_DELAY);
 	HAL_I2C_Master_Receive(&hi2c1,mpu6050,&status_val,1,HAL_MAX_DELAY);
 	if((status_val & (uint8_t)1<<0) == (uint8_t)1<<0){
-		cur_tick = HAL_GetTick();
-		tick=cur_tick-prev_tick;
-		prev_tick = cur_tick;
+		//cur_tick = HAL_GetTick();
+		//tick=cur_tick-prev_tick;
+		//prev_tick = cur_tick;
 		HAL_I2C_Master_Transmit(&hi2c1,mpu6050,&gyro_add,1,HAL_MAX_DELAY);
 		HAL_I2C_Master_Receive(&hi2c1,mpu6050,gyroval,6,HAL_MAX_DELAY);
 		gyrox = ((int16_t)((gyroval[0]<<8) | gyroval[1]))-21;
@@ -244,17 +287,17 @@ void EXTI9_5_IRQHandler(void)
 		
 		fgyrox= ((float)gyrox)/100;
 		fgyrox= ((float)((int)fgyrox))*100;
-		fgyrox= (((1000)/32768.)*(fgyrox)*((float)tick/1000.));
+		fgyrox= (((1000)/32768.)*(fgyrox)*(0.02));
 		sum_gyrox+=fgyrox;
 		//sum_gyroy+=gyroy;
 		//sum_gyroz+=gyroz;
 		sprintf(gyroxstr,"%f",sum_gyrox);
 
-		HAL_UART_Transmit(&huart1,(uint8_t *)gyroxstr,strlen(gyroxstr),HAL_MAX_DELAY);
+		//HAL_UART_Transmit(&huart1,(uint8_t *)gyroxstr,strlen(gyroxstr),HAL_MAX_DELAY);
 		//HAL_UART_Transmit(&huart1,(uint8_t *)gyroystr,strlen(gyroystr),HAL_MAX_DELAY);
 		//HAL_UART_Transmit(&huart1,(uint8_t *)gyrozstr,strlen(gyrozstr),HAL_MAX_DELAY);
 
-		HAL_UART_Transmit(&huart1,lineend,2,HAL_MAX_DELAY);
+		//HAL_UART_Transmit(&huart1,lineend,2,HAL_MAX_DELAY);
 	}
   /* USER CODE END EXTI9_5_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_7);

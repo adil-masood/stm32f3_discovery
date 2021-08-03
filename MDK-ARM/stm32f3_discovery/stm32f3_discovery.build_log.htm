@@ -27,14 +27,20 @@ Project File Date:  08/03/2021
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'stm32f3_discovery'
-compiling stm32f3xx_it.c...
-../Core/Src/stm32f3xx_it.c(247): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-  		fgyrox= (((1000)/32768.)*(fgyrox)*((float)tick/1000.));
-../Core/Src/stm32f3xx_it.c: 1 warning, 0 errors
+compiling main.c...
+../Core/Src/main.c(60): warning:  #1295-D: Deprecated declaration gyro_init - give arg types
+  void gyro_init();
+../Core/Src/main.c(102): warning:  #177-D: variable "raw"  was declared but never referenced
+  	uint32_t raw;
+../Core/Src/main.c(103): warning:  #177-D: variable "raw_str"  was declared but never referenced
+  	char raw_str[10];
+../Core/Src/main.c(104): warning:  #177-D: variable "lineend"  was declared but never referenced
+  	uint8_t lineend[2] = {0x0D,0x0A};
+../Core/Src/main.c: 4 warnings, 0 errors
 linking...
-Program Size: Code=18346 RO-data=658 RW-data=52 ZI-data=2012  
+Program Size: Code=20026 RO-data=658 RW-data=48 ZI-data=2184  
 FromELF: creating hex file...
-"stm32f3_discovery\stm32f3_discovery.axf" - 0 Error(s), 1 Warning(s).
+"stm32f3_discovery\stm32f3_discovery.axf" - 0 Error(s), 4 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -58,7 +64,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.5.0
       Include file:  CMSIS\Core\Include\tz_context.h
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>

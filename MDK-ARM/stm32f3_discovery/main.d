@@ -36,6 +36,7 @@ stm32f3_discovery\main.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim_
 stm32f3_discovery\main.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart.h
 stm32f3_discovery\main.o: ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart_ex.h
 stm32f3_discovery\main.o: ../Core/Inc/adc.h
+stm32f3_discovery\main.o: ../Core/Inc/dma.h
 stm32f3_discovery\main.o: ../Core/Inc/i2c.h
 stm32f3_discovery\main.o: ../Core/Inc/tim.h
 stm32f3_discovery\main.o: ../Core/Inc/usart.h
