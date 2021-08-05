@@ -63,7 +63,6 @@ static uint8_t lineend[2] = {0x0D,0x0A};
 extern DMA_HandleTypeDef hdma_adc1;
 extern ADC_HandleTypeDef hadc1;
 extern I2C_HandleTypeDef hi2c1;
-extern void personal(void);
 /* USER CODE BEGIN EV */
 extern UART_HandleTypeDef huart1;
 /* USER CODE END EV */

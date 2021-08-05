@@ -3,7 +3,7 @@
 <title>Static Call Graph - [stm32f3_discovery\stm32f3_discovery.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image stm32f3_discovery\stm32f3_discovery.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Tue Aug 03 18:03:28 2021
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Wed Aug 04 17:03:22 2021
 <BR><P>
 <H3>Maximum Stack Usage =        324 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -788,13 +788,21 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_ADC1_Init
 </UL>
 
-<P><STRONG><a name="[8b]"></a>HAL_ADC_ConvCpltCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32f3xx_hal_adc.o(i.HAL_ADC_ConvCpltCallback))
-<BR><BR>[Called By]<UL><LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADC_IRQHandler
+<P><STRONG><a name="[8b]"></a>HAL_ADC_ConvCpltCallback</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, main.o(i.HAL_ADC_ConvCpltCallback))
+<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = HAL_ADC_ConvCpltCallback &rArr; HAL_UART_Transmit &rArr; UART_WaitOnFlagUntilTimeout
+</UL>
+<BR>[Calls]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Transmit
+</UL>
+<BR>[Called By]<UL><LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADC_IRQHandler
 <LI><a href="#[54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_DMAConvCplt
 </UL>
 
-<P><STRONG><a name="[8d]"></a>HAL_ADC_ConvHalfCpltCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32f3xx_hal_adc.o(i.HAL_ADC_ConvHalfCpltCallback))
-<BR><BR>[Called By]<UL><LI><a href="#[55]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_DMAHalfConvCplt
+<P><STRONG><a name="[8d]"></a>HAL_ADC_ConvHalfCpltCallback</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, main.o(i.HAL_ADC_ConvHalfCpltCallback))
+<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = HAL_ADC_ConvHalfCpltCallback &rArr; HAL_UART_Transmit &rArr; UART_WaitOnFlagUntilTimeout
+</UL>
+<BR>[Calls]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Transmit
+</UL>
+<BR>[Called By]<UL><LI><a href="#[55]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_DMAHalfConvCplt
 </UL>
 
 <P><STRONG><a name="[8c]"></a>HAL_ADC_ErrorCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32f3xx_hal_adc.o(i.HAL_ADC_ErrorCallback))
@@ -807,15 +815,15 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[8a]"></a>HAL_ADC_IRQHandler</STRONG> (Thumb, 790 bytes, Stack size 24 bytes, stm32f3xx_hal_adc_ex.o(i.HAL_ADC_IRQHandler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = HAL_ADC_IRQHandler
+<BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = HAL_ADC_IRQHandler &rArr; HAL_ADC_ConvCpltCallback &rArr; HAL_UART_Transmit &rArr; UART_WaitOnFlagUntilTimeout
 </UL>
-<BR>[Calls]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADCEx_LevelOutOfWindow3Callback
+<BR>[Calls]<UL><LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADC_ConvCpltCallback
+<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADCEx_LevelOutOfWindow3Callback
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADCEx_LevelOutOfWindow2Callback
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADCEx_InjectedQueueOverflowCallback
 <LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADCEx_InjectedConvCpltCallback
 <LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADC_LevelOutOfWindowCallback
 <LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADC_ErrorCallback
-<LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADC_ConvCpltCallback
 </UL>
 <BR>[Called By]<UL><LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC1_2_IRQHandler
 </UL>
@@ -1187,6 +1195,8 @@ Global Symbols
 <LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC1_2_IRQHandler
 <LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;personal
 <LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gyro_init
+<LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADC_ConvHalfCpltCallback
+<LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADC_ConvCpltCallback
 </UL>
 
 <P><STRONG><a name="[6]"></a>HardFault_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32f3xx_it.o(i.HardFault_Handler))
@@ -1399,7 +1409,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
 </UL>
 
-<P><STRONG><a name="[91]"></a>personal</STRONG> (Thumb, 66 bytes, Stack size 16 bytes, main.o(i.personal))
+<P><STRONG><a name="[91]"></a>personal</STRONG> (Thumb, 64 bytes, Stack size 16 bytes, main.o(i.personal))
 <BR><BR>[Stack]<UL><LI>Max Depth = 136 + Unknown Stack Size
 <LI>Call Chain = personal &rArr; __2sprintf &rArr; _printf_char_common &rArr; __printf
 </UL>
@@ -1489,7 +1499,9 @@ Global Symbols
 Local Symbols
 </H3>
 <P><STRONG><a name="[54]"></a>ADC_DMAConvCplt</STRONG> (Thumb, 68 bytes, Stack size 0 bytes, stm32f3xx_hal_adc_ex.o(i.ADC_DMAConvCplt))
-<BR><BR>[Calls]<UL><LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADC_ConvCpltCallback
+<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = ADC_DMAConvCplt &rArr; HAL_ADC_ConvCpltCallback &rArr; HAL_UART_Transmit &rArr; UART_WaitOnFlagUntilTimeout
+</UL>
+<BR>[Calls]<UL><LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADC_ConvCpltCallback
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> stm32f3xx_hal_adc_ex.o(i.HAL_ADC_Start_DMA)
 </UL>
@@ -1499,7 +1511,9 @@ Local Symbols
 <BR>[Address Reference Count : 1]<UL><LI> stm32f3xx_hal_adc_ex.o(i.HAL_ADC_Start_DMA)
 </UL>
 <P><STRONG><a name="[55]"></a>ADC_DMAHalfConvCplt</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32f3xx_hal_adc_ex.o(i.ADC_DMAHalfConvCplt))
-<BR><BR>[Calls]<UL><LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADC_ConvHalfCpltCallback
+<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = ADC_DMAHalfConvCplt &rArr; HAL_ADC_ConvHalfCpltCallback &rArr; HAL_UART_Transmit &rArr; UART_WaitOnFlagUntilTimeout
+</UL>
+<BR>[Calls]<UL><LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_ADC_ConvHalfCpltCallback
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> stm32f3xx_hal_adc_ex.o(i.HAL_ADC_Start_DMA)
 </UL>

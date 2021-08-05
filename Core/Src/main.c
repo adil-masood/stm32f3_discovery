@@ -55,7 +55,6 @@ uint32_t adc_buff[16];
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-void personal(void);
 /* USER CODE BEGIN PFP */
 void gyro_init();
 /* USER CODE END PFP */
@@ -109,17 +108,14 @@ int main(void)
 	
 	gyro_init();
 	HAL_ADC_Start_DMA(&hadc1,adc_buff,16);
+	
+	
 	//HAL_ADC_Start_IT(&hadc1);
 	
 	//HAL_ADCEx_Calibration_Start(&hadc1,1);
 	
   while (1)
   {
-		
-		
-		
-		
-		
 		
 		//HAL_Delay(100);
     /* USER CODE END WHILE */
@@ -133,6 +129,12 @@ int main(void)
   * @brief System Clock Configuration
   * @retval None
   */
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc){
+	HAL_UART_Transmit(&huart1,(uint8_t *)"fullcptlWorking\n",strlen("Working\n"),HAL_MAX_DELAY);
+}
+void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef *hadc){
+	HAL_UART_Transmit(&huart1,(uint8_t *)"halfcptlWorking\n",strlen("Working\n"),HAL_MAX_DELAY);
+}
 void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
@@ -198,13 +200,14 @@ void gyro_init(){
 
 void personal(void){
 	static uint8_t lineend[2] = {0x0D,0x0A};
-	static char raw_str[30];
+	static char raw_str[30]; 
 	for(int i=0;i<16;i++){
-		sprintf(raw_str,"%d",(adc_buff[i]>>15));
+		sprintf(raw_str,"%d",(adc_buff[i]));
 		HAL_UART_Transmit(&huart1,(uint8_t *)raw_str,strlen(raw_str),HAL_MAX_DELAY);
 		HAL_UART_Transmit(&huart1,lineend,2,HAL_MAX_DELAY);
 	}
 }
+
 /* USER CODE END 4 */
 
 /**
