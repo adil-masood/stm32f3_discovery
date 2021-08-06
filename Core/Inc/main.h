@@ -77,12 +77,6 @@ void personal(void);
 #define OSC_OUT_GPIO_Port GPIOF
 #define B1_Pin GPIO_PIN_0
 #define B1_GPIO_Port GPIOA
-#define SPI1_SCK_Pin GPIO_PIN_5
-#define SPI1_SCK_GPIO_Port GPIOA
-#define SPI1_MISO_Pin GPIO_PIN_6
-#define SPI1_MISO_GPIO_Port GPIOA
-#define SPI1_MISOA7_Pin GPIO_PIN_7
-#define SPI1_MISOA7_GPIO_Port GPIOA
 #define LD5_Pin GPIO_PIN_10
 #define LD5_GPIO_Port GPIOE
 #define LD7_Pin GPIO_PIN_11
