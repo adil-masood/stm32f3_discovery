@@ -113,6 +113,11 @@ int main(void)
 	float fgyrox;
 	float sum_gyrox;
 	char gyroxstr[10];
+	uint8_t accel_add = (0x3B | (1<<7));
+	uint8_t accelval[6];
+	int16_t accelx;
+	char accelx_str[10];
+	
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -137,9 +142,18 @@ int main(void)
 		fgyrox= (((1000)/32768.)*(fgyrox)*(0.1));
 		sum_gyrox+=fgyrox;
 		sprintf(gyroxstr,"%f",sum_gyrox);
-		HAL_UART_Transmit(&huart1,(uint8_t *)gyroxstr,strlen(gyroxstr),HAL_MAX_DELAY);
+		//HAL_UART_Transmit(&huart1,(uint8_t *)gyroxstr,strlen(gyroxstr),HAL_MAX_DELAY);
+		//HAL_UART_Transmit(&huart1,lineend,2,HAL_MAX_DELAY);
+		
+		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_RESET);
+		HAL_SPI_Transmit(&hspi2,&accel_add,1,HAL_MAX_DELAY);
+		HAL_SPI_Receive(&hspi2,accelval,6,HAL_MAX_DELAY);
+		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_SET);
+		accelx = (int16_t)((accelval[0]<<8) | accelval[1]);
+		
+		sprintf(accelx_str,"%d",accelx);
+		HAL_UART_Transmit(&huart1,(uint8_t *)accelx_str,strlen(accelx_str),HAL_MAX_DELAY);
 		HAL_UART_Transmit(&huart1,lineend,2,HAL_MAX_DELAY);
-	
 		
 		HAL_Delay(100);
 		
