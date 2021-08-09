@@ -1122,6 +1122,9 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>MyLibs</GroupName>
+        </Group>
+        <Group>
           <GroupName>::CMSIS</GroupName>
         </Group>
       </Groups>

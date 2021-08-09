@@ -113,11 +113,10 @@ int main(void)
 	float fgyrox;
 	float sum_gyrox;
 	char gyroxstr[10];
-	uint8_t accel_add = (0x3B | (1<<7));
-	uint8_t accelval[6];
-	int16_t accelx;
-	char accelx_str[10];
 	
+	uint8_t x = 0x1F | (1<<7);
+	uint8_t y;
+	char accelx_str[10];
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -126,35 +125,15 @@ int main(void)
 	
   while (1)
   {
-		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_RESET);
-		HAL_SPI_Transmit(&hspi2,&whoami_add,1,HAL_MAX_DELAY);
-		HAL_SPI_Receive(&hspi2,&whoval,1,HAL_MAX_DELAY);
-		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_SET);
 		
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_RESET);
-		HAL_SPI_Transmit(&hspi2,&gyro_add,1,HAL_MAX_DELAY);
-		HAL_SPI_Receive(&hspi2,gyroval,6,HAL_MAX_DELAY);
+		HAL_SPI_Transmit(&hspi2,&x,1,HAL_MAX_DELAY);
+		HAL_SPI_Receive(&hspi2,&y,1,HAL_MAX_DELAY);
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_SET);
-		
-		gyrox = ((int16_t)((gyroval[0]<<8) | gyroval[1]))-21;
-		fgyrox= ((float)gyrox)/100;
-		fgyrox= ((float)((int)fgyrox))*100;
-		fgyrox= (((1000)/32768.)*(fgyrox)*(0.1));
-		sum_gyrox+=fgyrox;
-		sprintf(gyroxstr,"%f",sum_gyrox);
-		//HAL_UART_Transmit(&huart1,(uint8_t *)gyroxstr,strlen(gyroxstr),HAL_MAX_DELAY);
+
+		//sprintf(accelx_str,"%d",y);
+		//HAL_UART_Transmit(&huart1,(uint8_t *)accelx_str,strlen(accelx_str),HAL_MAX_DELAY);
 		//HAL_UART_Transmit(&huart1,lineend,2,HAL_MAX_DELAY);
-		
-		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_RESET);
-		HAL_SPI_Transmit(&hspi2,&accel_add,1,HAL_MAX_DELAY);
-		HAL_SPI_Receive(&hspi2,accelval,6,HAL_MAX_DELAY);
-		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_SET);
-		accelx = (int16_t)((accelval[0]<<8) | accelval[1]);
-		
-		sprintf(accelx_str,"%d",accelx);
-		HAL_UART_Transmit(&huart1,(uint8_t *)accelx_str,strlen(accelx_str),HAL_MAX_DELAY);
-		HAL_UART_Transmit(&huart1,lineend,2,HAL_MAX_DELAY);
-		
 		HAL_Delay(100);
 		
     /* USER CODE END WHILE */
@@ -219,14 +198,52 @@ void gyro_init(){
   // 2nd addr=0x19 <SMPLRT_DIV registr> || "SAMPLE_RATE= Internal_Sample_Rate / (1 + SMPLRT_DIV)"
   // 3rd 00000110 addr=0x1A <CONFIG registr> || "DLPF <Fs=1KHz, mode=6>, fifo mode replace"
   // 4th 1000dps addr=0x1B <GYRO CONFIG registr> || "gyro full scale +-250dps, enable DLPF by fchoice_b = 2b'00"
-	uint8_t buff2[3] = {0x37,0x10,0x01};
+	uint8_t int_conf[3] = {0x37,0x10,0x40};
+	//uint8_t int_conf[3] = {0x37,0x10,0x01};
+	uint8_t wom_th[2] = {0x1F, 0x04};
+	
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_RESET);
 	HAL_SPI_Transmit(&hspi2,buffer,4,HAL_MAX_DELAY);
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_SET);
 	HAL_Delay(100);
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_RESET);
-	HAL_SPI_Transmit(&hspi2,buff2,3,HAL_MAX_DELAY);
+	HAL_SPI_Transmit(&hspi2,int_conf,3,HAL_MAX_DELAY);
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_SET);
+	HAL_Delay(100);
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_RESET);
+	HAL_SPI_Transmit(&hspi2,wom_th,2,HAL_MAX_DELAY);
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_SET);
+	uint8_t pow_mgnt[3] = {0x6B,0x00,0x07};
+	uint8_t accel_config_2[3] = {0x1D,0x00,0x09};
+	uint8_t MOT_DETECT_CTRL[2] = {0x69,0xC0};
+	uint8_t LP_ACCEL_ODR[2] = {0x1E,0xC0};
+	uint8_t LP_ACCEL_ODR_CTRL[2] = {0x1E,0x0B};
+	uint8_t pow_mgnt1[3] = {0x6B,0x20};
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_RESET);
+	HAL_SPI_Transmit(&hspi2,pow_mgnt,2,HAL_MAX_DELAY);
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_SET);
+	HAL_Delay(100);
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_RESET);
+	HAL_SPI_Transmit(&hspi2,accel_config_2,2,HAL_MAX_DELAY);
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_SET);
+	HAL_Delay(100);
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_RESET);
+	HAL_SPI_Transmit(&hspi2,MOT_DETECT_CTRL,2,HAL_MAX_DELAY);
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_SET);
+	HAL_Delay(100);
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_RESET);
+	HAL_SPI_Transmit(&hspi2,LP_ACCEL_ODR,2,HAL_MAX_DELAY);
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_SET);
+	HAL_Delay(100);
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_RESET);
+	HAL_SPI_Transmit(&hspi2,LP_ACCEL_ODR_CTRL,2,HAL_MAX_DELAY);
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_SET);
+	HAL_Delay(100);
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_RESET);
+	HAL_SPI_Transmit(&hspi2,pow_mgnt1,2,HAL_MAX_DELAY);
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_SET);
+	HAL_Delay(100);
+
 /*	if(HAL_I2C_Master_Transmit(&hi2c1,mpu6050,buffer,4,HAL_MAX_DELAY) != HAL_OK){
 		HAL_UART_Transmit(&huart1,(uint8_t *)"i2c_error: gyro_init() (1)",strlen("i2c_error: gyro_init() (1)"),HAL_MAX_DELAY);
 	}

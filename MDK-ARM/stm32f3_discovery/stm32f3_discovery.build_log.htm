@@ -22,7 +22,7 @@ Dialog DLL:      TCM.DLL V1.53.0.0
  
 <h2>Project:</h2>
 C:\Users\eptech_pc\Pictures\Camera Roll\stm32f3_discovery\MDK-ARM\stm32f3_discovery.uvprojx
-Project File Date:  08/06/2021
+Project File Date:  08/09/2021
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
@@ -30,17 +30,37 @@ Build target 'stm32f3_discovery'
 compiling main.c...
 ../Core/Src/main.c(59): warning:  #1295-D: Deprecated declaration gyro_init - give arg types
   void gyro_init();
+../Core/Src/main.c(102): warning:  #177-D: variable "whoami_add"  was declared but never referenced
+  	static uint8_t whoami_add = (0x75|(1<<7));
+../Core/Src/main.c(103): warning:  #177-D: variable "whoval"  was declared but never referenced
+  	static uint8_t whoval = 1;
+../Core/Src/main.c(104): warning:  #177-D: variable "lineend"  was declared but never referenced
+  	uint8_t lineend[2] = {0x0D,0x0A};
 ../Core/Src/main.c(105): warning:  #177-D: variable "buffer"  was declared but never referenced
   	uint8_t buffer[4] = {0x19,0x00,0x06,0x10};
 ../Core/Src/main.c(106): warning:  #177-D: variable "buff2"  was declared but never referenced
   	uint8_t buff2[3]={0};
+../Core/Src/main.c(107): warning:  #177-D: variable "gyro_add"  was declared but never referenced
+  	uint8_t gyro_add = (0x43 | (1<<7));
+../Core/Src/main.c(111): warning:  #177-D: variable "gyroval"  was declared but never referenced
+  	uint8_t gyroval[6];
+../Core/Src/main.c(112): warning:  #177-D: variable "gyrox"  was declared but never referenced
+  	int16_t gyrox;
+../Core/Src/main.c(113): warning:  #177-D: variable "fgyrox"  was declared but never referenced
+  	float fgyrox;
+../Core/Src/main.c(114): warning:  #177-D: variable "sum_gyrox"  was declared but never referenced
+  	float sum_gyrox;
+../Core/Src/main.c(115): warning:  #177-D: variable "gyroxstr"  was declared but never referenced
+  	char gyroxstr[10];
+../Core/Src/main.c(119): warning:  #177-D: variable "accelx_str"  was declared but never referenced
+  	char accelx_str[10];
 ../Core/Src/main.c(52): warning:  #177-D: variable "mpu6050"  was declared but never referenced
   static const uint8_t mpu6050 = (0x68 << 1);
-../Core/Src/main.c: 4 warnings, 0 errors
+../Core/Src/main.c: 14 warnings, 0 errors
 linking...
-Program Size: Code=24566 RO-data=658 RW-data=28 ZI-data=2364  
+Program Size: Code=20216 RO-data=484 RW-data=40 ZI-data=2376  
 FromELF: creating hex file...
-"stm32f3_discovery\stm32f3_discovery.axf" - 0 Error(s), 4 Warning(s).
+"stm32f3_discovery\stm32f3_discovery.axf" - 0 Error(s), 14 Warning(s).
 
 <h2>Software Packages used:</h2>
 
