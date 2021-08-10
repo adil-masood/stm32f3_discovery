@@ -41,3 +41,5 @@ stm32f3_discovery\stm32f3xx_it.o: ../Core/Inc/stm32f3xx_it.h
 stm32f3_discovery\stm32f3xx_it.o: ../Core/Inc/spi.h
 stm32f3_discovery\stm32f3xx_it.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 stm32f3_discovery\stm32f3xx_it.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+stm32f3_discovery\stm32f3xx_it.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+stm32f3_discovery\stm32f3xx_it.o: ..\References\mylibs\uart_print.h

@@ -45,3 +45,6 @@ stm32f3_discovery\main.o: ../Core/Inc/usart.h
 stm32f3_discovery\main.o: ../Core/Inc/gpio.h
 stm32f3_discovery\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 stm32f3_discovery\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+stm32f3_discovery\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+stm32f3_discovery\main.o: ..\References\mylibs\uart_print.h
+stm32f3_discovery\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h

@@ -24,8 +24,10 @@
 #include "spi.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "stdio.h"
-#include "string.h"
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include "uart_print.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -47,7 +49,6 @@
 /* USER CODE BEGIN PV */
 static const uint8_t mpu6050 = (0x68 << 1);
 static uint8_t gyro_add = 0x43;
-static uint8_t lineend[2] = {0x0D,0x0A};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -212,7 +213,7 @@ void DMA1_Channel1_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA1_Channel1_IRQn 0 */
 	HAL_UART_Transmit(&huart1,(uint8_t *)"I AM HERE",strlen("I AM HERE"),HAL_MAX_DELAY);
-	HAL_UART_Transmit(&huart1,lineend,2,HAL_MAX_DELAY);
+	lineend(&huart1,WINDOWS);
 	personal();
 	
   /* USER CODE END DMA1_Channel1_IRQn 0 */
@@ -234,7 +235,7 @@ void ADC1_2_IRQHandler(void)
 	raw = HAL_ADC_GetValue(&hadc1);
 	sprintf(raw_str,"%d",raw);
 	HAL_UART_Transmit(&huart1,(uint8_t *)raw_str,strlen(raw_str),HAL_MAX_DELAY);
-	HAL_UART_Transmit(&huart1,lineend,2,HAL_MAX_DELAY);
+	lineend(&huart1,WINDOWS);
 	//HAL_ADC_Start_IT(&hadc1);
   /* USER CODE END ADC1_2_IRQn 0 */
   HAL_ADC_IRQHandler(&hadc1);
@@ -253,7 +254,11 @@ void EXTI9_5_IRQHandler(void)
 	static uint8_t status;
 	static uint8_t accelval[6];
 	static int16_t accelx;
-	static char accelx_str[10];
+	static int16_t accely;
+	static int16_t accelz;
+	static float accel_ang_x;
+	static float accel_ang_y;
+	static float accel_ang_z;
 	//HAL_UART_Transmit(&huart1,(uint8_t *)"HELLO",sizeof("HELLO"),HAL_MAX_DELAY);
 	//HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_RESET);
 	//HAL_SPI_Transmit(&hspi2,&whoami_add,1,HAL_MAX_DELAY);
@@ -284,10 +289,13 @@ void EXTI9_5_IRQHandler(void)
 	HAL_SPI_Receive(&hspi2,accelval,6,HAL_MAX_DELAY);
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_SET);
 	accelx = (int16_t)((accelval[0]<<8) | accelval[1]);
+	accely = (int16_t)((accelval[2]<<8) | accelval[3]);
+	accelz = (int16_t)((accelval[4]<<8) | accelval[5]);
 	
-	sprintf(accelx_str,"%d",accelx);
-	HAL_UART_Transmit(&huart1,(uint8_t *)accelx_str,strlen(accelx_str),HAL_MAX_DELAY);
-	HAL_UART_Transmit(&huart1,lineend,2,HAL_MAX_DELAY);
+	accel_ang_x = atan(accelx/sqrt((accely*accely)+( accelz*accelz )))*(180.0/3.14) ;
+	//print_int(&huart1,&accelx,sizeof(accelx));
+	//print_float(&huart1,&accel_ang_x);
+	//lineend(&huart1,WINDOWS);
   /* USER CODE END EXTI9_5_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_7);
   /* USER CODE BEGIN EXTI9_5_IRQn 1 */

@@ -57,6 +57,13 @@ void print_uint(UART_HandleTypeDef *huart,void *any,int size){
 			HAL_UART_Transmit(huart,(uint8_t *)x_str,strlen(x_str),HAL_MAX_DELAY);
 	} 
 }
+void print_float(UART_HandleTypeDef *huart,float *any){
+	float value = *any;
+	char x_str[12];
+	sprintf(x_str,"%f",value);
+	HAL_UART_Transmit(huart,(uint8_t *)x_str,strlen(x_str),HAL_MAX_DELAY);
+
+}
 void print_str(UART_HandleTypeDef *huart,char *str){
 	HAL_UART_Transmit(huart,(uint8_t *)str,strlen(str),HAL_MAX_DELAY);
 }
@@ -67,5 +74,4 @@ void lineend(UART_HandleTypeDef *huart,int OS_TYPE){
 	else if(OS_TYPE == LINUX){
 		HAL_UART_Transmit(huart,&LF,1,HAL_MAX_DELAY);
 	}
-	
 }

@@ -5,7 +5,7 @@
 <h2>Tool Versions:</h2>
 IDE-Version: µVision V5.35.0.0
 Copyright (C) 2021 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: sadfasdf dsfagdsfg, personal, LIC=----
+License Information: Adil Masood, Personal, LIC=----
  
 Tool Versions:
 Toolchain:       MDK-Lite  Version: 5.35.0.2
@@ -21,46 +21,36 @@ Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.9.0
 Dialog DLL:      TCM.DLL V1.53.0.0
  
 <h2>Project:</h2>
-C:\Users\eptech_pc\Pictures\Camera Roll\stm32f3_discovery\MDK-ARM\stm32f3_discovery.uvprojx
-Project File Date:  08/09/2021
+E:\Adil\STM32_work\stm32f3_discovery\MDK-ARM\stm32f3_discovery.uvprojx
+Project File Date:  08/10/2021
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'stm32f3_discovery'
 compiling main.c...
-../Core/Src/main.c(59): warning:  #1295-D: Deprecated declaration gyro_init - give arg types
+..\References\mylibs\uart_print.h(10): warning:  #1-D: last line of file ends without a newline
+  #endif
+../Core/Src/main.c(63): warning:  #1295-D: Deprecated declaration gyro_init - give arg types
   void gyro_init();
-../Core/Src/main.c(102): warning:  #177-D: variable "whoami_add"  was declared but never referenced
-  	static uint8_t whoami_add = (0x75|(1<<7));
-../Core/Src/main.c(103): warning:  #177-D: variable "whoval"  was declared but never referenced
-  	static uint8_t whoval = 1;
-../Core/Src/main.c(104): warning:  #177-D: variable "lineend"  was declared but never referenced
-  	uint8_t lineend[2] = {0x0D,0x0A};
-../Core/Src/main.c(105): warning:  #177-D: variable "buffer"  was declared but never referenced
-  	uint8_t buffer[4] = {0x19,0x00,0x06,0x10};
-../Core/Src/main.c(106): warning:  #177-D: variable "buff2"  was declared but never referenced
-  	uint8_t buff2[3]={0};
-../Core/Src/main.c(107): warning:  #177-D: variable "gyro_add"  was declared but never referenced
-  	uint8_t gyro_add = (0x43 | (1<<7));
-../Core/Src/main.c(111): warning:  #177-D: variable "gyroval"  was declared but never referenced
-  	uint8_t gyroval[6];
-../Core/Src/main.c(112): warning:  #177-D: variable "gyrox"  was declared but never referenced
-  	int16_t gyrox;
-../Core/Src/main.c(113): warning:  #177-D: variable "fgyrox"  was declared but never referenced
-  	float fgyrox;
-../Core/Src/main.c(114): warning:  #177-D: variable "sum_gyrox"  was declared but never referenced
-  	float sum_gyrox;
-../Core/Src/main.c(115): warning:  #177-D: variable "gyroxstr"  was declared but never referenced
-  	char gyroxstr[10];
-../Core/Src/main.c(119): warning:  #177-D: variable "accelx_str"  was declared but never referenced
-  	char accelx_str[10];
-../Core/Src/main.c(52): warning:  #177-D: variable "mpu6050"  was declared but never referenced
+../Core/Src/main.c(118): warning:  #177-D: variable "gfilterx"  was declared but never referenced
+  	float gfilterx=0;
+../Core/Src/main.c(119): warning:  #177-D: variable "gfiltery"  was declared but never referenced
+  	float gfiltery=0;
+../Core/Src/main.c(120): warning:  #177-D: variable "gfilterz"  was declared but never referenced
+  	float gfilterz=0;
+../Core/Src/main.c(121): warning:  #177-D: variable "Roll"  was declared but never referenced
+  	float Roll;
+../Core/Src/main.c(122): warning:  #177-D: variable "Pitch"  was declared but never referenced
+  	float Pitch;
+../Core/Src/main.c(279): warning:  #177-D: variable "accel_config_2"  was declared but never referenced
+  	uint8_t accel_config_2[3] = {0x1D,0x05,0x09};
+../Core/Src/main.c(56): warning:  #177-D: variable "mpu6050"  was declared but never referenced
   static const uint8_t mpu6050 = (0x68 << 1);
-../Core/Src/main.c: 14 warnings, 0 errors
+../Core/Src/main.c: 9 warnings, 0 errors
 linking...
-Program Size: Code=20216 RO-data=484 RW-data=40 ZI-data=2376  
+Program Size: Code=28162 RO-data=814 RW-data=60 ZI-data=2364  
 FromELF: creating hex file...
-"stm32f3_discovery\stm32f3_discovery.axf" - 0 Error(s), 14 Warning(s).
+"stm32f3_discovery\stm32f3_discovery.axf" - 0 Error(s), 9 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -71,20 +61,20 @@ Package Vendor: ARM
    * Component: CORE Version: 5.5.0
 
 Package Vendor: Keil
-                http://www.keil.com/pack/Keil.STM32F3xx_DFP.2.2.0.pack
-                Keil.STM32F3xx_DFP.2.2.0
+                http://www.keil.com/pack/Keil.STM32F3xx_DFP.2.1.0.pack
+                Keil.STM32F3xx_DFP.2.1.0
                 STMicroelectronics STM32F3 Series Device Support and Examples
 
 <h2>Collection of Component include folders:</h2>
   .\RTE\_stm32f3_discovery
-  C:\Users\eptech_pc\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include
-  C:\Users\eptech_pc\AppData\Local\Arm\Packs\Keil\STM32F3xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32F3xx\Include
+  C:\Users\KHALID\AppData\Local\Arm\Packs\ARM\CMSIS\5.8.0\CMSIS\Core\Include
+  C:\Users\KHALID\AppData\Local\Arm\Packs\Keil\STM32F3xx_DFP\2.1.0\Drivers\CMSIS\Device\ST\STM32F3xx\Include
 
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.5.0
       Include file:  CMSIS\Core\Include\tz_context.h
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>

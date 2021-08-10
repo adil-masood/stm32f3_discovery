@@ -31,6 +31,8 @@
 "stm32f3_discovery\stm32f3xx_hal_uart.o"
 "stm32f3_discovery\stm32f3xx_hal_uart_ex.o"
 "stm32f3_discovery\system_stm32f3xx.o"
+"stm32f3_discovery\mpu6050_i2c.o"
+"stm32f3_discovery\uart_print.o"
 --strict --scatter "stm32f3_discovery\stm32f3_discovery.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

@@ -6,4 +6,5 @@ void print_int(UART_HandleTypeDef *huart,void *any,int size);
 void print_uint(UART_HandleTypeDef *huart,void *any,int size);
 void lineend(UART_HandleTypeDef *huart,int OS_TYPE);
 void print_str(UART_HandleTypeDef *huart,char *str);
+void print_float(UART_HandleTypeDef *huart,void *any);
 #endif

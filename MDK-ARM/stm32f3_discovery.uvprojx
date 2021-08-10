@@ -16,7 +16,7 @@
         <TargetCommonOption>
           <Device>STM32F303VCTx</Device>
           <Vendor>STMicroelectronics</Vendor>
-          <PackID>Keil.STM32F3xx_DFP.2.2.0</PackID>
+          <PackID>Keil.STM32F3xx_DFP.2.1.0</PackID>
           <PackURL>http://www.keil.com/pack/</PackURL>
           <Cpu>IRAM(0x20000000-0x20009FFF) IRAM2(0x10000000-0x10001FFF) IROM(0x8000000-0x803FFFF) CLOCK(8000000) FPU2 CPUTYPE("Cortex-M4") TZ</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -206,7 +206,7 @@
             <Ro2Chk>0</Ro2Chk>
             <Ro3Chk>0</Ro3Chk>
             <Ir1Chk>1</Ir1Chk>
-            <Ir2Chk>1</Ir2Chk>
+            <Ir2Chk>0</Ir2Chk>
             <Ra1Chk>0</Ra1Chk>
             <Ra2Chk>0</Ra2Chk>
             <Ra3Chk>0</Ra3Chk>
@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F303xC</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;                                                                                                                          ../Drivers/STM32F3xx_HAL_Driver/Inc;                                                                                                                          ../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy;                                                                                                                          ../Drivers/CMSIS/Device/ST/STM32F3xx/Include;                                                                                                                          ../Drivers/CMSIS/Include</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32F3xx_HAL_Driver/Inc;../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F3xx/Include;../Drivers/CMSIS/Include;..\References\mylibs</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1123,6 +1123,18 @@
         </Group>
         <Group>
           <GroupName>MyLibs</GroupName>
+          <Files>
+            <File>
+              <FileName>mpu6050_i2c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\References\mylibs\mpu6050_i2c.c</FilePath>
+            </File>
+            <File>
+              <FileName>uart_print.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\References\mylibs\uart_print.c</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>::CMSIS</GroupName>
